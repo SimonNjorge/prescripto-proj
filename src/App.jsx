@@ -8,7 +8,7 @@ import Appointment from './pages/Appointment';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import About from './pages/About';
-
+import Contacts from './pages/Contacts';
 const App = () => {
   return (
     <div className="mx-4 sm:mx-[10%]">
@@ -17,6 +17,7 @@ const App = () => {
         <Route path='/' element={<Home/>}/>
         <Route path='/doctors' element={<Doctors/>}/>
         <Route path='/about' element={<About/>}/>
+        <Route path='/contact' element={<Contacts/>}/>
         <Route path='/doctors/:specialty' element={<Doctors/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/my-appointments' element={<MyAppointments/>}/>
