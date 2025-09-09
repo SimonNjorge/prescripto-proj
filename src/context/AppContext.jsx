@@ -3,8 +3,11 @@ import { doctors } from "../assets/assets_frontend/assets";
 import { AppContext } from "./context";
 
 const AppContextProvider = (props) => {
-    const value = doctors;
-
+  const currencySymbol = '$';
+    const value = {
+      doctors,
+      currencySymbol
+    }
   return (
     <AppContext.Provider value={value}>
         {props.children}
