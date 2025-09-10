@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { assets } from '../assets/assets_frontend/assets'
+import { assets } from '../assets/assets_frontend/assets';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
   const navigate = useNavigate();
 
-  //const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [token, setToken] = useState(true);
 
   return (
@@ -48,6 +48,21 @@ const Navbar = () => {
               Create account
             </button>
         }
+        <img className='w-6 md:hidden' onClick={()=>{setShowMenu(true)}} src={assets.menu_icon} alt="" />
+
+        {/*-- mobile menu --*/}
+        <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden flex flex-col right-0 bottom-0 top-0 z-20 overflow-hidden bg-white transition-all duration-200`}>
+          <div className='flex items-center justify-between px-5 py-2'>
+            <img className='w-36' src={assets.logo} alt="" />
+            <img className='w-6 cursor-pointer' onClick={()=>{setShowMenu(false)}} src={assets.cross_icon} alt="" />
+          </div>
+          <ul className='self-center flex flex-col gap-3 mt-4 font-medium text-lg'>
+            <NavLink onClick={()=>setShowMenu(false)} to='/'><p className='text-center px-4 py-2'>HOME</p></NavLink>
+            <NavLink onClick={()=>setShowMenu(false)} to='/doctors'><p className='text-center px-4 py-2'>ALL DOCTORS</p></NavLink>
+            <NavLink onClick={()=>setShowMenu(false)} to='/about'><p className='text-center px-4 py-2'>ABOUT</p></NavLink>
+            <NavLink onClick={()=>setShowMenu(false)} to='/contact'><p className='text-center px-4 py-2'>CONTACT</p></NavLink>
+          </ul>
+        </div>
       </div>
     </div>
   )
