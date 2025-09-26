@@ -10,6 +10,7 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { userAtoken, setUserAtoken, userData } = useContext(AppContext);
   //const [token, setToken] = useState(true);
+  console.log(userAtoken)
 
   const logout = () => {
     setUserAtoken(false); 
@@ -39,7 +40,7 @@ const Navbar = () => {
       </ul>
       <div className='flex items-center gap-4'>
         {
-          userAtoken && userData ? <div className='flex items-center gap-2 cursor-pointer group relative'>
+          userAtoken ? <div className='flex items-center gap-2 cursor-pointer group relative'>
             <img className='w-8 rounded-full' src={userData.image} alt="profile-pic" />
             <img className='w-2.5' src={assets.dropdown_icon} alt="" />
             <div className='absolute top-8 right-1 pt-14 text-base font-medium text-gray-600 z-20 bg-indigo-50 hidden group-hover:block'>

@@ -6,45 +6,25 @@ import { toast } from "react-toastify";
 import { assets } from "../assets/assets_frontend/assets";
 
 const MyProfile = () => {
-  /*
-  const [userData,  setUserData] = useState({
-    name: "Edward mullehnberg",
-    email: "edwarmll23@gmail.com",
-    phone: "+254-7-41-404115",
-    address: {
-      line1: "57th street, Sunton",
-      line2: "3rd Floor, Arch Plaza"
-    },
-    gender: "Male",
-    dob: "23-01-1990"
-  })*/
 
-  const { userAtoken, userData, loadUserProfileData, backendUrl } =
+  const { userAtoken, userData, setUserData, loadUserProfileData, backendUrl } =
     useContext(AppContext);
-
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(false);
-  const [name, setName] = useState(userData.name);
-  const [phone, setPhone] = useState(userData.phone);
-  const [address1, setAddress1] = useState(userData.address.line1);
-  const [address2, setAddress2] = useState(userData.address.line2);
-  const [dob, setDob] = useState(userData.dob);
-  const [gender, setGender] = useState(userData.gender);
-
+  
   const updateUserProfileData = async () => {
     try {
 
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("phone", phone);
-      formData.append("dob", dob);
-      formData.append("gender", gender);
+      formData.append("name", userData.name);
+      formData.append("phone", userData.phone);
+      formData.append("dob", userData.dob);
+      formData.append("gender", userData.gender);
       formData.append(
         "address",
-        JSON.stringify({ line1: address1, line2: address2 })
+        JSON.stringify(userData.address)
       );
       image && formData.append('image', image)
-
       const { data } = await axios.post(
         backendUrl + "/api/user/update-profile",
         formData,
@@ -96,9 +76,9 @@ const MyProfile = () => {
         <input
           className="bg-gray-50 border border-gray-400 focus-within:outline-none rounded-lg text-3xl font-medium max-w-60 mt-4"
           type="text"
-          value={name}
+          value={userData.name}
           onChange={(e) => {
-            setName(e.target.value);
+            setUserData(prev => ({...prev, name: e.target.value}));
           }}
         />
       ) : (
@@ -117,9 +97,9 @@ const MyProfile = () => {
             <input
               className="bg-gray-100 border border-gray-400 focus-within:outline-none rounded-lg max-w-52"
               type="text"
-              value={phone}
+              value={userData.phone}
               onChange={(e) => {
-                setPhone(e.target.value);
+                setUserData(prev => ({...prev, phone: e.target.value}));
               }}
             />
           ) : (
@@ -129,20 +109,20 @@ const MyProfile = () => {
           {isEdit ? (
             <p>
               <input
-                className="bg-gray-50 border border-gray-400 focus-within:outline-none rounded-lg"
+                className="bg-gray-50 border border-gray-400 focus-within:outline-none rounded-lg mb-1"
                 type="text"
-                value={address1}
+                value={userData.address.line1}
                 onChange={(e) => {
-                  setAddress1(e.target.value);
+                  setUserData(prev => ({...prev, address: {...prev, line1: e.target.value}}));
                 }}
               />
               <br />
               <input
                 className="bg-gray-50 border border-gray-400 focus-within:outline-none rounded-lg"
                 type="text"
-                value={address2}
+                value={userData.address.line2}
                 onChange={(e) => {
-                  setAddress2(e.target.value);
+                  setUserData(prev => ({...prev, address: {...prev, line2: e.target.value}}));
                 }}
               />
             </p>
@@ -163,9 +143,9 @@ const MyProfile = () => {
           {isEdit ? (
             <select
               className="bg-gray-100 max-w-20"
-              value={gender}
+              value={userData.gender}
               onChange={(e) => {
-                setGender(e.target.value);
+                setUserData(prev => ({...prev, gender: e.target.value}));
               }}
             >
               <option value="male">Male</option>
@@ -179,9 +159,9 @@ const MyProfile = () => {
             <input
               className="max-w-28 bg-gray-100 border border-gray-400 focus-within:outline-none rounded-lg"
               type="date"
-              value={dob}
+              value={userData.dob}
               onChange={(e) => {
-                setDob(e.target.value);
+                setUserData(prev => ({...prev, dob: e.target.value}));
               }}
             />
           ) : (
@@ -195,7 +175,7 @@ const MyProfile = () => {
             className="border border-primary rounded-full py-3 px-8 hover:bg-primary hover:text-white transition-all duration-500"
             onClick={updateUserProfileData}
           >
-            Save information
+            Save information 
           </button>
         ) : (
           <button

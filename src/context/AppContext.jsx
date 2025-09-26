@@ -35,9 +35,13 @@ const AppContextProvider = (props) => {
     
     try {
       
-      const { data } = await axios.get(backendUrl + '/api/user/get-user-data', {}, {
-        headers: {Authorization: `Bearer ${userAtoken}`}
-      })
+      const { data } = await axios.post(backendUrl + '/api/user/get-user-data', {}, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'Authorization' : `Bearer ${userAtoken}`
+        }
+      }
+    )
 
       if (data.success) {
         setUserData(data.userData)
@@ -54,7 +58,14 @@ const AppContextProvider = (props) => {
   useEffect(()=>{
     getDoctorsData();
   }, [])
-
+/*
+  window.addEventListener('reset',() =>{
+    //if(userAtoken){
+      loadUserProfileData();
+   // } else {
+      //setUserData(false)
+    //}
+  })*/
   useEffect(()=>{
     if(userAtoken){
       loadUserProfileData();
