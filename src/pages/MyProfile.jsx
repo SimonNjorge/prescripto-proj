@@ -7,8 +7,7 @@ import { assets } from "../assets/assets_frontend/assets";
 
 const MyProfile = () => {
 
-  const { userAtoken, userData, setUserData, loadUserProfileData, backendUrl } =
-    useContext(AppContext);
+  const { userAtoken, userData, setUserData, loadUserProfileData, backendUrl } = useContext(AppContext);
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(false);
   
