@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/context';
@@ -10,7 +10,6 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { userAtoken, setUserAtoken, userData } = useContext(AppContext);
   //const [token, setToken] = useState(true);
-  console.log(userAtoken)
 
   const logout = () => {
     setUserAtoken(false); 
@@ -19,7 +18,7 @@ const Navbar = () => {
 
   return (
     <div className='flex items-center justify-between text-sm py-4' >
-      <img onClick={()=>navigate('/')}  className='w-44' src={assets.logo}/>
+      <img onClick={()=>navigate('/')}  className='w-44 max-sm:w-32' src={assets.logo}/>
       <ul className='hidden md:flex items-start gap-5 font-medium'>
         <NavLink to='/'>
           <li  className='py-1'>Home</li>
@@ -51,7 +50,7 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          : <button className='bg-primary text-white rounded-full px-8 py-3 font-light hidden md:block'
+          : <button className='bg-primary text-white rounded-full px-8 py-3 font-light max-sm:text-xs max-sm:p-1 md:block'
               onClick={()=> {navigate('/login')}}>
               Create account
             </button>

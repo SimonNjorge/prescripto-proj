@@ -130,10 +130,11 @@ const Appointment = () => {
   useEffect(()=>{
     getAvailableSlots()
   }, [docInfo]);
-
+  
+  /*
   useEffect(()=>{
     console.log(docSlots)
-  }, [docSlots]);
+  }, [docSlots]);*/
 
   return docInfo && (
     <div>
@@ -182,7 +183,7 @@ const Appointment = () => {
             </p>
           ))}
         </div>
-        <button onClick={bookAppointment} className='bg-primary text-white font-light text-sm px-14 py-3 my-7 rounded-full'>
+        <button onClick={bookAppointment} className='bg-primary text-white font-light text-sm px-14 py-3 my-7 rounded-full hover:bg-blue-400'>
           book an appointment
         </button>
       </div>
