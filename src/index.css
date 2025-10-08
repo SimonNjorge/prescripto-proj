@@ -13,3 +13,21 @@
         @apply text-white bg-primary
     }
 }
+.loading{
+    width: 12px;
+    height: 12px;
+    border: 1px solid greenyellow;
+    animation: load 2s linear infinite ;
+}
+
+@keyframes load {
+    33%{
+        transform: rotateY(180deg);
+    }
+    66%{
+        transform: rotateX(180deg);
+    }
+    99%{
+        transform: rotateZ(180deg);
+    }
+}

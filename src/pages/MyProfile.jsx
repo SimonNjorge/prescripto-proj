@@ -10,38 +10,49 @@ const MyProfile = () => {
   const { userAtoken, userData, setUserData, loadUserProfileData, backendUrl } = useContext(AppContext);
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(false);
+  const [action, setAction] = useState(false);
   
   const updateUserProfileData = async () => {
-    try {
+    if (!action) {
+      try {
+        setAction(true);
+        await new Promise((resolve, reject) => {
+          setTimeout(()=>{
+          reject({message: 'failed'})
+        }, 12000)}).catch(console.log)
 
-      const formData = new FormData();
-      formData.append("name", userData.name);
-      formData.append("phone", userData.phone);
-      formData.append("dob", userData.dob);
-      formData.append("gender", userData.gender);
-      formData.append(
-        "address",
-        JSON.stringify(userData.address)
-      );
-      image && formData.append('image', image)
-      const { data } = await axios.post(
-        backendUrl + "/api/user/update-profile",
-        formData,
-        {
-          headers: { Authorization: `Bearer ${userAtoken}` },
+        const formData = new FormData();
+        formData.append("name", userData.name);
+        formData.append("phone", userData.phone);
+        formData.append("dob", userData.dob);
+        formData.append("gender", userData.gender);
+        formData.append(
+          "address",
+          JSON.stringify(userData.address)
+        );
+        image && formData.append('image', image)
+
+        const { data } = await axios.post(
+          backendUrl + "/api/user/update-profile",
+          formData,
+          {
+            headers: { Authorization: `Bearer ${userAtoken}` },
+          }
+        );
+
+        if (data.success) {
+          toast.success(data.message);
+          await loadUserProfileData();
+          setIsEdit(false);
+          setImage(false)
+        } else {
+          toast.error(data.message);
         }
-      );
-
-      if (data.success) {
-        toast.success(data.message);
-        await loadUserProfileData();
-        setIsEdit(false);
-        setImage(false)
-      } else {
-        toast.error(data.message);
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setAction(false)
       }
-    } catch (error) {
-      toast.error(error.message);
     }
   };
 
@@ -174,7 +185,13 @@ const MyProfile = () => {
             className="border border-primary rounded-full py-3 px-8 hover:bg-primary hover:text-white transition-all duration-500"
             onClick={updateUserProfileData}
           >
-            Save information 
+           {action
+            ? <div className='flex items-center'>
+                <p className='w-3 h-3 border border-black animate-spin mr-1'></p>
+                  saving...
+              </div>
+            : 'Save information'
+            }
           </button>
         ) : (
           <button

@@ -12,47 +12,58 @@ const Login = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [action, setAction] = useState(false);
 
   const { backendUrl, userAtoken, setUserAtoken } = useContext(AppContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!action) {
+      try {
 
-    try {
-      
-      if(state == "Sign Up"){
+        setAction(true)
+        /*
+        await new Promise((resolve, reject) => {
+          setTimeout(()=>{
+          reject({message: 'failed'})
+        }, 12000)}).catch(console.log)*/
 
-        const { data } = await axios.post(backendUrl + '/api/user/register', {
-          name,
-          email,
-          password
-        });
+        if(state == "Sign Up"){
 
-        if(data.success){
-          //accessToken will be set both when the user logs 
-          //in and when the user registers
-          localStorage.setItem('accessToken', data.accessToken);
-          setUserAtoken(data.accessToken)
+          const { data } = await axios.post(backendUrl + '/api/user/register', {
+            name,
+            email,
+            password
+          });
+
+          if(data.success){
+            //accessToken will be set both when the user logs 
+            //in and when the user registers
+            localStorage.setItem('accessToken', data.accessToken);
+            setUserAtoken(data.accessToken)
+          } else {
+            toast.error(data.message)
+          }
+
         } else {
-          toast.error(data.message)
+
+          const { data } = await axios.post(backendUrl + '/api/user/login', {
+            email,
+            password
+          })
+
+          if(data.success){
+            localStorage.setItem('accessToken', data.accessToken);
+            setUserAtoken(data.accessToken)
+          } else {
+            toast.error(data.message)
+          }
         }
-
-      } else {
-
-        const { data } = await axios.post(backendUrl + '/api/user/login', {
-          email,
-          password
-        })
-
-        if(data.success){
-          localStorage.setItem('accessToken', data.accessToken);
-          setUserAtoken(data.accessToken)
-        } else {
-          toast.error(data.message)
-        }
+      } catch (error) {
+        toast.error(error.message)
+      } finally {
+        setAction(false)
       }
-    } catch (error) {
-      toast.error(error.message)
     }
   }
 
@@ -81,10 +92,28 @@ const Login = () => {
           <p>Password</p>
           <input className='border border-zinc-300 rounded w-full mt-1 p-2' type="password" onChange={(e)=>{setPassword(e.target.value)}} value={password} required/>
         </div>
-        <button onClick={(e)=>{handleSubmit(e)}} className='w-full bg-primary text-white py-2 rounded-md text-base'>{state === 'Sign Up' ? 'Create account' : 'Login'}</button>
+        <button onClick={(e)=>{handleSubmit(e)}} className='w-full bg-primary text-white py-2 rounded-md text-base'>
+          {state === 'Sign Up' && !action ? 'Create account' : ''}
+          {state !== 'Sign Up' && !action ? 'Login' : ''}
+          {action && state == 'Sign Up'
+           ? <div className='flex items-center justify-center'>
+               <p className='w-3 h-3 border mr-1 animate-spin'></p>
+                creating account...
+              </div>
+           : ''
+          }
+          {action && state !== 'Sign Up'
+           ? <div className='flex items-center justify-center'>
+               <p className='w-3 h-3 border mr-1 animate-spin'></p>
+                Logging in...
+              </div>
+           : ''
+          }
+        </button>
         {state === "Sign Up"
           ? <p>Already have an account? <span onClick={()=>{setState('login')}} className='text-primary underline cursor-pointer'>Login here</span></p> 
-          : <p>Create a new account? <span onClick={()=>{setState('Sign Up')}}  className='text-primary underline cursor-pointer'>click here</span></p>}
+          : <p>Create a new account? <span onClick={()=>{setState('Sign Up')}}  className='text-primary underline cursor-pointer'>click here</span></p>
+        }
       </div>
     </form>
   )

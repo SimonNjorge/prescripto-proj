@@ -14,9 +14,10 @@ const Appointment = () => {
   const { doctors, currencySymbol, userAtoken, backendUrl, getDoctorsData } = useContext(AppContext);
   const [docInfo, setDocInfo] = useState(null);
   const [docSlots, setDocSlots] = useState([]);
-  const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState('');
+  const [booking, setBooking] = useState(false); 
+  const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
   const fetchDocInfo =  async () => {
     const docInfo = doctors.find(doc => doc._id == docId);
@@ -88,39 +89,49 @@ const Appointment = () => {
       return navigate('/login')
     }
 
-    try {
-      
-      const date = docSlots[slotIndex][0].dateTime;
+    if (!booking) {
+      try {
+        setBooking(true);
+        /*
+        await new Promise((resolve, reject) => {
+          setTimeout(()=>{
+          reject({message: 'failed'})
+        }, 12000)}).catch(console.log)
+        */
+       
+        const date = docSlots[slotIndex][0].dateTime;
 
-      let day = date.getDate();
-      let month = date.getMonth() + 1;
-      let year = date.getFullYear();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
 
-      const slotDate = day + "_" + month + "_" + year;
-      
-      const { data } = await axios.post(backendUrl + '/api/user/book-appointment', {
-        docId,
-        slotDate,
-        slotTime
-      },{
-        headers: {
-          'Authorization' : `Bearer ${userAtoken}`
+        const slotDate = day + "_" + month + "_" + year;
+        
+        const { data } = await axios.post(backendUrl + '/api/user/book-appointment', {
+            docId,
+            slotDate,
+            slotTime
+          },{
+            headers: {
+              'Authorization' : `Bearer ${userAtoken}`
+            }
+          }
+        )
+
+        if (data.success) {
+          toast.success(data.message)
+          getDoctorsData()
+          navigate('/my-appointments')
+        } else {
+          toast.error(data.message)
         }
+
+      } catch (error) {
+        toast.error(error.message)
+      } finally {
+        setBooking(false)
       }
-    )
-
-    if (data.success) {
-      toast.success(data.message)
-      getDoctorsData()
-      navigate('/my-appointments')
-    } else {
-      toast.error(data.message)
     }
-
-    } catch (error) {
-      toast.error(error.message)
-    }
-
   }
 
   useEffect(()=>{
@@ -130,7 +141,7 @@ const Appointment = () => {
   useEffect(()=>{
     getAvailableSlots()
   }, [docInfo]);
-  
+
   /*
   useEffect(()=>{
     console.log(docSlots)
@@ -184,7 +195,13 @@ const Appointment = () => {
           ))}
         </div>
         <button onClick={bookAppointment} className='bg-primary text-white font-light text-sm px-14 py-3 my-7 rounded-full hover:bg-blue-400'>
-          book an appointment
+          {booking
+           ? <div className='flex items-center'>
+               <p className='loading mr-1'></p>
+                Booking...
+              </div>
+           : 'book an appointment'
+          }
         </button>
       </div>
 
