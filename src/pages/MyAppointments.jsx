@@ -133,7 +133,7 @@ const MyAppointments = () => {
     }
   }, [userAtoken]);
 
-  return (
+  return userAtoken && (
     <div>
       <p className='pb-3 mt-10 text-zinc-700 font-medium border-b'>My Appointments</p>
       {appointments.map((appnmnt, i)=>(
