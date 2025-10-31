@@ -30,7 +30,7 @@ const Appointment = () => {
     //get the current date
     let today = new Date();
 
-    for(let i = 0; i < 7; i++){
+    for(let i = 0; i < 7; i++) {
       let currentDate = new Date(today);
       //console.log(currentDate)
       //setDate sets the numeric day of the month using local time
@@ -151,8 +151,8 @@ const Appointment = () => {
     <div>
       {/*-- doctors details --*/}
       <div className='flex flex-col sm:flex-row gap-4'>
-        <div>
-          <img className='bg-primary w-full sm:max-w-72 rounded' src={docInfo.image} alt="" />
+        <div className='max-w-[288px]'>
+          <img className='bg-primary w-full max-h-[230px] sm:max-w-72 rounded' src={docInfo.image} alt="" />
         </div>
         <div className='flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[80px] sm:mt-0'>
           <p className='flex items-center gap-2 text-2xl text-gray-900 font-medium'>
