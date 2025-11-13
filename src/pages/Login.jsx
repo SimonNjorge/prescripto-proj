@@ -75,7 +75,7 @@ const Login = () => {
 
   return (
     <form className='flex items-center min-h-[80vh]'>
-      <div className='flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 
+      <div className='flex flex-col gap-3 m-auto items-start p-8 min-w-[250px] sm:min-w-96 
         border rounded-xl text-zinc-600 text-sm shadow-lg'>
         <p className='text-2xl font-semibold'>{state === 'Sign Up' ? 'Create account' : 'Login'}</p>
         <p>Please {state === 'Sign Up' ? 'sign up' : 'log in'} to book an appointment</p>
@@ -86,11 +86,11 @@ const Login = () => {
 
         <div className='w-full'>
           <p>Email</p>
-          <input className='border border-zinc-300 rounded w-full mt-1 p-2' type="email" onChange={(e)=>{setEmail(e.target.value)}} value={email} required/>
+          <input className='border border-zinc-300 rounded w-full mt-1 p-2' type="email" onChange={(e)=>{setEmail(e.target.value)}} value={email} required={true} />
         </div>
         <div className='w-full'>
           <p>Password</p>
-          <input className='border border-zinc-300 rounded w-full mt-1 p-2' type="password" onChange={(e)=>{setPassword(e.target.value)}} value={password} required/>
+          <input className='border border-zinc-300 rounded w-full mt-1 p-2' type="password" onChange={(e)=>{setPassword(e.target.value)}} value={password} required={true}/>
         </div>
         <button onClick={(e)=>{handleSubmit(e)}} className='w-full bg-primary text-white py-2 rounded-md text-base'>
           {state === 'Sign Up' && !action ? 'Create account' : ''}

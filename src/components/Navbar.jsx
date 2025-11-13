@@ -42,7 +42,7 @@ const Navbar = () => {
           userAtoken ? <div className='flex items-center gap-2 cursor-pointer group relative'>
             <img className='w-8 h-8 object-contain border border-slate-300 rounded-full' src={userData.image} alt="profile-pic" />
             <img className='w-2.5' src={assets.dropdown_icon} alt="" />
-            <div className='absolute top-8 right-1 pt-14 text-base font-medium text-gray-600 z-20 bg-indigo-50 hidden group-hover:block'>
+            <div className='absolute top-8 right-0 pt-14 text-base font-medium text-gray-600 z-20 bg-indigo-50 hidden group-hover:block'>
               <div className='min-w-48 flex flex-col gap-4 p-4'>
                 <p onClick={()=>{navigate('my-profile')}} className='hover:text-black cursor-pointer'>My profile</p>
                 <p onClick={()=>{navigate('my-appointments')}} className='hover:text-black cursor-pointer'>My Appointments</p>
