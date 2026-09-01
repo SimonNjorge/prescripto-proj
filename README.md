@@ -5,8 +5,10 @@ This is an appointment booking website for doctors that allows users to browse d
 ## 📁 System Architecture & Directory Layout
 
 ├── root/                 # Frontend React application
-│   ├── public/             # Static public assets
-│   └── src/                # Component architecture and hooks
+
+├── public/             # Static public assets
+
+└── src/                # Component architecture and hooks
 
 ## 🛠️ Tech Stack & Dependencies -
 React.js, Context API, Tailwind CSS, Axios
